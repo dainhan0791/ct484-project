@@ -12,8 +12,8 @@ class Auth {
     required String password,
   }) async {
     await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email.toString().trim(),
+      password: password.toString().trim(),
     );
   }
 
@@ -22,8 +22,8 @@ class Auth {
     required String password,
   }) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email.toString().trim(),
+      password: password.toString().trim(),
     );
   }
 
