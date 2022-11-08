@@ -18,7 +18,7 @@ class UpcomingComponent extends StatelessWidget {
                 "Upcoming Movies",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.w500,
                 ),
               ),

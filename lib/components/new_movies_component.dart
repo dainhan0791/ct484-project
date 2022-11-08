@@ -16,7 +16,7 @@ class NewMoviesComponent extends StatelessWidget {
                 "New Movies",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -115,7 +115,7 @@ class NewMoviesComponent extends StatelessWidget {
                                     ),
                                   )
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         )

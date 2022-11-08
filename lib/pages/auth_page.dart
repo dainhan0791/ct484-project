@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_b1909960/services/auth.dart';
+import 'package:flutter_application_b1909960/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
+      await AuthService().signInWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      await AuthService().createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
@@ -42,10 +42,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _title() {
-    return const Text('Firebase Auth');
-  }
-
   Widget _entryField(
     String title,
     TextEditingController controller,
@@ -53,13 +49,26 @@ class _LoginPageState extends State<LoginPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: title,
+        hintText: title,
+        filled: true,
+        fillColor: Colors.blue.shade100,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+        prefixIcon: title == 'email' ? Icon(Icons.email) : Icon(Icons.key),
       ),
     );
   }
 
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+    return Text(
+      errorMessage == '' ? '' : 'Humm ? $errorMessage',
+      style: TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 
   Widget _submitButton() {
@@ -83,12 +92,25 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _sizedBox(double h) {
+    return SizedBox(height: h);
+  }
+
+  Widget _authImage(String image) {
+    return Opacity(
+      opacity: 0.9,
+      child: Image.asset(
+        "images/$image",
+        width: double.infinity,
+        height: 160,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -97,8 +119,12 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            _authImage('auth.jpg'),
+            _sizedBox(16),
             _entryField('email', _controllerEmail),
+            _sizedBox(16),
             _entryField('password', _controllerPassword),
+            _sizedBox(16),
             _errorMessage(),
             _submitButton(),
             _loginOrRegisterButton(),

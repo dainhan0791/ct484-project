@@ -1,6 +1,5 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:flutter/material.dart';
 
 class CustomNavbarComponent extends StatelessWidget {
@@ -9,15 +8,15 @@ class CustomNavbarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65,
+      height: 40,
       padding: EdgeInsets.symmetric(
         horizontal: 20,
       ),
       decoration: BoxDecoration(
         color: Color(0xFF292B37),
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
         ),
       ),
       child: Row(
@@ -30,7 +29,7 @@ class CustomNavbarComponent extends StatelessWidget {
             },
             child: Icon(
               Icons.home,
-              size: 35,
+              size: 26,
               color: Colors.white,
             ),
           ),
@@ -40,8 +39,8 @@ class CustomNavbarComponent extends StatelessWidget {
               Navigator.pushNamed(context, "categoryPage");
             },
             child: Icon(
-              Icons.movie,
-              size: 35,
+              Icons.storage,
+              size: 26,
               color: Colors.white,
             ),
           ),
@@ -49,15 +48,18 @@ class CustomNavbarComponent extends StatelessWidget {
             onTap: () {},
             child: Icon(
               Icons.favorite,
-              size: 35,
+              size: 26,
               color: Colors.white,
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              // Navigate User Page
+              Navigator.pushNamed(context, "userPage");
+            },
             child: Icon(
               Icons.person,
-              size: 35,
+              size: 26,
               color: Colors.white,
             ),
           ),

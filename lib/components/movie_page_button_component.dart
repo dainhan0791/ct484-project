@@ -7,8 +7,8 @@ class MoviePageButtonComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: 40,
-        vertical: 40,
+        horizontal: 20,
+        vertical: 20,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,7 +22,7 @@ class MoviePageButtonComponent extends StatelessWidget {
             child: Icon(
               Icons.add,
               color: Colors.white,
-              size: 35,
+              size: 26,
             ),
           ),
           Container(
@@ -34,7 +34,7 @@ class MoviePageButtonComponent extends StatelessWidget {
             child: Icon(
               Icons.favorite_border,
               color: Colors.white,
-              size: 35,
+              size: 26,
             ),
           ),
           Container(
@@ -46,7 +46,7 @@ class MoviePageButtonComponent extends StatelessWidget {
             child: Icon(
               Icons.download,
               color: Colors.white,
-              size: 35,
+              size: 26,
             ),
           ),
           Container(
@@ -58,7 +58,7 @@ class MoviePageButtonComponent extends StatelessWidget {
             child: Icon(
               Icons.share,
               color: Colors.white,
-              size: 35,
+              size: 26,
             ),
           ),
         ],

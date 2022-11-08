@@ -18,7 +18,7 @@ class RecommenComponent extends StatelessWidget {
                 'Recommended',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -49,8 +49,8 @@ class RecommenComponent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
                       'images/movie-$i.jpg',
-                      width: 150,
-                      height: 100,
+                      width: 160,
+                      height: 190,
                       fit: BoxFit.cover,
                     ),
                   ),

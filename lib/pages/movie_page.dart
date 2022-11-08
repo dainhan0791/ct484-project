@@ -16,7 +16,7 @@ class MoviePage extends StatelessWidget {
             child: Image.asset(
               "images/godzilla_kong.jpg",
               width: double.infinity,
-              height: 280,
+              height: 240,
               fit: BoxFit.cover,
             ),
           ),
@@ -39,7 +39,7 @@ class MoviePage extends StatelessWidget {
                           child: Icon(
                             Icons.arrow_back,
                             color: Colors.white,
-                            size: 30,
+                            size: 20,
                           ),
                         ),
                         InkWell(
@@ -47,14 +47,14 @@ class MoviePage extends StatelessWidget {
                           child: Icon(
                             Icons.favorite_border,
                             color: Colors.white,
-                            size: 35,
+                            size: 24,
                           ),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 60,
+                    height: 40,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -76,7 +76,7 @@ class MoviePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             child: Image.asset(
                               "images/godzilla_kong.jpg",
-                              height: 250,
+                              height: 240,
                               width: 180,
                               fit: BoxFit.cover,
                             ),
@@ -109,11 +109,9 @@ class MoviePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
                   MoviePageButtonComponent(),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      vertical: 10,
                       horizontal: 10,
                     ),
                     child: Column(
@@ -123,17 +121,17 @@ class MoviePage extends StatelessWidget {
                           "Godzilla vs Kong",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 6),
                         Text(
-                          "This is the sample description of the movie This is the sample description of the movie",
+                          "This is the sample description of the movie This is the sample description of the movie This is the sample description of the movie This is the sample description of the movie",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Color.fromARGB(255, 123, 183, 233),
                             fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                           ),
                           textAlign: TextAlign.justify,
                         ),
