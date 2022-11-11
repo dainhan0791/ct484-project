@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: double.infinity,
+        height: MediaQuery.of(context).size.height,
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         child: Column(

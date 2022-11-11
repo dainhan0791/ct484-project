@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class UpcomingComponent extends StatelessWidget {
+class UpcomingComponent extends StatefulWidget {
   const UpcomingComponent({super.key});
 
+  @override
+  State<UpcomingComponent> createState() => _UpcomingComponentState();
+}
+
+class _UpcomingComponentState extends State<UpcomingComponent> {
   @override
   Widget build(BuildContext context) {
     return Column(

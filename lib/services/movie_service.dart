@@ -13,19 +13,65 @@ class MovieService {
     required String id,
     required String title,
     required String description,
+    required String year,
     required String star,
     required String genre,
     required String image,
     required String video,
   }) async {
-    await moviesRef.add(Movie(
-      id: id.toString().trim(),
-      title: title.toString().trim(),
-      description: description.toString().trim(),
-      star: id.toString().trim(),
-      genre: genre.toString().trim(),
-      image: image.toString().trim(),
-      video: video.toString().trim(),
-    ));
+    await moviesRef
+        .doc(
+          id.toString().trim(),
+        )
+        .set(
+          Movie(
+            id: id.toString().trim(),
+            title: title.toString().trim(),
+            description: description.toString().trim(),
+            year: year.toString().trim(),
+            star: id.toString().trim(),
+            genre: genre.toString().trim(),
+            image: image.toString().trim(),
+            video: video.toString().trim(),
+          ),
+        );
+  }
+
+  Future<void> updateMovie({
+    required String id,
+    required String title,
+    required String description,
+    required String year,
+    required String star,
+    required String genre,
+    required String image,
+    required String video,
+  }) async {
+    await moviesRef
+        .doc(
+      id.toString().trim(),
+    )
+        .update(
+      {
+        'id': id.toString().trim(),
+        'title': title.toString().trim(),
+        'description': description.toString().trim(),
+        'year': year.toString().trim(),
+        'star': id.toString().trim(),
+        'genre': genre.toString().trim(),
+        'image': image.toString().trim(),
+        'video': video.toString().trim(),
+      },
+    );
+  }
+
+  Future<void> deleteMovie({
+    required String id,
+  }) async {
+    await moviesRef
+        .doc(
+          id.toString().trim(),
+        )
+        .delete();
   }
 }

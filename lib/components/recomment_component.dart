@@ -50,7 +50,7 @@ class RecommenComponent extends StatelessWidget {
                     child: Image.asset(
                       'images/movie-$i.jpg',
                       width: 160,
-                      height: 190,
+                      height: 240,
                       fit: BoxFit.cover,
                     ),
                   ),
