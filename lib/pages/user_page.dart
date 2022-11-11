@@ -30,16 +30,14 @@ class _UserPageState extends State<UserPage> {
   // get value
   get title => _controllerTitle;
   get id => _controllerId;
+  get description => _controllerDescription;
+  get year => _controllerYear;
+  get star => _controllerStar;
+  get genre => _controllerGenre;
+  get image => _controllerImage;
+  get video => _controllerVideo;
 
   // Widgets
-  Widget _userUid() {
-    return Text(
-      user?.email ?? 'User does not exist',
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    );
-  }
 
   Widget _sizedBox(double h) {
     return SizedBox(height: h);
@@ -177,21 +175,74 @@ class _UserPageState extends State<UserPage> {
   Future<void> updateMovie() async {
     try {
       if (_controllerId.text == '') {
-        errorMessage = 'Movie Id is not empty';
+        errorMessage = 'Id Movie Input Is Not Empty';
       } else {
         setState(() {
-          successMessage = 'Update Movie Sucessfully with id: ${id.text}';
+          successMessage =
+              'Update Movie Successfully with id: ${id.text} & title: ${title.text} & description: ${description.text} & year: ${year.text} & genre: ${genre.text} & star: ${star.text} & image: ${image.text}  & video: ${video.text}';
         });
-        await MovieService().updateMovie(
-          id: _controllerId.text,
-          title: _controllerTitle.text,
-          description: _controllerDescription.text,
-          year: _controllerYear.text,
-          star: _controllerStar.text,
-          genre: _controllerGenre.text,
-          image: _controllerImage.text,
-          video: _controllerVideo.text,
-        );
+
+        if (_controllerTitle.text != '') {
+          await MovieService().updateTitleMovie(
+            id: _controllerId.text,
+            title: _controllerTitle.text,
+          );
+        }
+
+        if (_controllerDescription.text != '') {
+          await MovieService().updateDescriptionMovie(
+            id: _controllerId.text,
+            description: _controllerDescription.text,
+          );
+        }
+        if (_controllerYear.text != '') {
+          await MovieService().updateYearMovie(
+            id: _controllerId.text,
+            year: _controllerYear.text,
+          );
+        }
+        if (_controllerGenre.text != '') {
+          await MovieService().updateGenreMovie(
+            id: _controllerId.text,
+            genre: _controllerGenre.text,
+          );
+        }
+        if (_controllerStar.text != '') {
+          await MovieService().updateStarMovie(
+            id: _controllerId.text,
+            star: _controllerStar.text,
+          );
+        }
+        if (_controllerImage.text != '') {
+          await MovieService().updateImageMovie(
+            id: _controllerId.text,
+            image: _controllerImage.text,
+          );
+        }
+        if (_controllerVideo.text != '') {
+          await MovieService().updateVideoMovie(
+            id: _controllerId.text,
+            video: _controllerVideo.text,
+          );
+        }
+        if (_controllerId.text != '' &&
+            _controllerTitle.text != '' &&
+            _controllerDescription.text != '' &&
+            _controllerYear.text != '' &&
+            _controllerStar.text != '' &&
+            _controllerImage.text != '' &&
+            _controllerVideo.text != '') {
+          await MovieService().updateMovie(
+            id: _controllerId.text,
+            title: _controllerTitle.text,
+            description: _controllerDescription.text,
+            year: _controllerYear.text,
+            star: _controllerStar.text,
+            genre: _controllerGenre.text,
+            image: _controllerImage.text,
+            video: _controllerVideo.text,
+          );
+        }
       }
     } catch (e) {
       setState(() {

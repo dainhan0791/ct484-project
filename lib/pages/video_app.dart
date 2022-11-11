@@ -30,6 +30,7 @@ class _VideoAppState extends State<VideoApp> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     //   return Column(
     //     children: [
@@ -52,22 +53,24 @@ class _VideoAppState extends State<VideoApp> {
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return const Text('Something went wrong');
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return const Text("Loading");
         }
 
-        return ListView(
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
-            return ListTile(
-              title: Text(data['title']),
-              subtitle: Text(data['image']),
-            );
-          }).toList(),
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              Map<String, dynamic> data =
+                  document.data()! as Map<String, dynamic>;
+              return Image(
+                image: NetworkImage(data['image']),
+              );
+            }).toList(),
+          ),
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_b1909960/pages/home_page.dart';
 import 'package:flutter_application_b1909960/pages/auth_page.dart';
-import 'package:flutter_application_b1909960/pages/user_page.dart';
 import 'package:flutter_application_b1909960/pages/video_app.dart';
 import 'package:flutter_application_b1909960/services/auth_service.dart';
 
@@ -20,7 +19,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return HomePage();
-          // return VideoApp();
+          // return const VideoApp();
         } else {
           return const LoginPage();
         }
