@@ -10,10 +10,15 @@ class DisPlayProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
-      child: Image.network(
-        '${user?.photoURL ?? 'https://www.pngplay.com/wp-content/uploads/10/Pokemon-PNG-Images-HD.png'}  ',
-        height: 56,
-        width: 56,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, "userPage");
+        },
+        child: Image.network(
+          '${user?.photoURL ?? 'https://www.pngplay.com/wp-content/uploads/10/Pokemon-PNG-Images-HD.png'}  ',
+          height: 56,
+          width: 56,
+        ),
       ),
     );
   }

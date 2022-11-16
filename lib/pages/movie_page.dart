@@ -6,6 +6,7 @@ import 'package:flutter_application_b1909960/components/recomment_component.dart
 import 'package:flutter_application_b1909960/models/current_movie.dart';
 import 'package:flutter_application_b1909960/models/movie.dart';
 import 'package:flutter_application_b1909960/provider/favorite_provider.dart';
+import 'package:flutter_application_b1909960/widget/arrow_back.dart';
 import 'package:provider/provider.dart';
 
 class MoviePage extends StatefulWidget {
@@ -18,10 +19,11 @@ class MoviePage extends StatefulWidget {
 class _MoviePageState extends State<MoviePage> {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as CurrentMovie;
+    final argsNewMovie =
+        ModalRoute.of(context)?.settings.arguments as CurrentMovie;
     final Stream<QuerySnapshot> _movieStream = FirebaseFirestore.instance
         .collection('movies')
-        .where('id', isEqualTo: args.id)
+        .where('id', isEqualTo: argsNewMovie.id)
         .snapshots();
 
     final provider = Provider.of<FavoriteProvider>(context);
@@ -65,16 +67,7 @@ class _MoviePageState extends State<MoviePage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
+                                const ArrowBack(),
                                 InkWell(
                                     onTap: () {
                                       provider.toggleFavorite(
@@ -89,12 +82,6 @@ class _MoviePageState extends State<MoviePage> {
                                           video: data['video'],
                                         ),
                                       );
-                                      // provider.toggleFavorite({
-                                      //   'id': data['id'].toString(),
-                                      //   'title': data['title'].toString(),
-                                      //   'genre': data['genre'].toString(),
-                                      //   'image': data['image'].toString(),
-                                      // });
                                     },
                                     child: provider.isExist(
                                       Movie(
@@ -123,7 +110,7 @@ class _MoviePageState extends State<MoviePage> {
                             height: 30,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 1),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -174,7 +161,8 @@ class _MoviePageState extends State<MoviePage> {
                                     ),
                                     onTap: () {
                                       Navigator.pushNamed(context, 'videoPage',
-                                          arguments: CurrentMovie(args.id));
+                                          arguments:
+                                              CurrentMovie(argsNewMovie.id));
                                     },
                                   ),
                                 ),
@@ -198,14 +186,21 @@ class _MoviePageState extends State<MoviePage> {
                                   ),
                                 ),
                                 const SizedBox(height: 6),
-                                Text(
-                                  data['description'],
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 123, 183, 233),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                SizedBox(
+                                  height: 105,
+                                  child: SingleChildScrollView(
+                                    child: Text(
+                                      data['description'],
+                                      style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 123, 183, 233),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.justify,
+                                      overflow: TextOverflow.fade,
+                                    ),
                                   ),
-                                  textAlign: TextAlign.justify,
                                 ),
                               ],
                             ),

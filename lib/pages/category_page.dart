@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_b1909960/components/custom_navbar_component.dart';
 import 'package:flutter_application_b1909960/components/header_component.dart';
+import 'package:flutter_application_b1909960/models/current_movie.dart';
+import 'package:flutter_application_b1909960/widget/arrow_back.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -15,6 +17,7 @@ class _CategoryPageState extends State<CategoryPage> {
       .collection('movies')
       .orderBy('genre')
       .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,19 +45,10 @@ class _CategoryPageState extends State<CategoryPage> {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      // ignore: prefer_const_literals_to_create_immutables
                       children: [
                         const HeaderComponent(),
-                        InkWell(
-                          onTap: () {
-                            // Togo back to the page
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
+                        const ArrowBack(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -79,57 +73,63 @@ class _CategoryPageState extends State<CategoryPage> {
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  data['image'],
-                                  height: 120,
-                                  width: 90,
-                                  fit: BoxFit.cover,
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, 'moviePage',
+                                arguments: CurrentMovie(data['id'].toString()));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    data['image'],
+                                    height: 120,
+                                    width: 90,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 220,
-                                    child: Text(
-                                      data['title'],
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 220,
+                                      child: Text(
+                                        data['title'],
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 220,
-                                    child: Text(
-                                      data['genre'],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.amber,
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      width: 220,
+                                      child: Text(
+                                        data['genre'],
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.amber,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const Spacer(),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 23,
-                              )
-                            ],
+                                  ],
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 23,
+                                )
+                              ],
+                            ),
                           ),
                         );
                       }).toList(),

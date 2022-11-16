@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_b1909960/models/current_movie.dart';
 
 class RecommenComponent extends StatefulWidget {
   const RecommenComponent({super.key});
@@ -67,15 +68,21 @@ class _RecommenComponentState extends State<RecommenComponent> {
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data =
                       document.data()! as Map<String, dynamic>;
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        data['image'],
-                        height: 180,
-                        width: 240,
-                        fit: BoxFit.cover,
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'moviePage',
+                          arguments: CurrentMovie(data['id'].toString()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          data['image'],
+                          height: 180,
+                          width: 240,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   );

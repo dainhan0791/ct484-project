@@ -55,8 +55,11 @@ class CustomNavbarComponent extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Navigate User Page
-              Navigator.pushNamed(context, "userPage");
+              // Navigate user Page
+              Navigator.pushNamed(
+                context,
+                "userPage",
+              );
             },
             child: const Icon(
               Icons.person,

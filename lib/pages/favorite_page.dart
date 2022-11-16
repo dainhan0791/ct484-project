@@ -4,6 +4,7 @@ import 'package:flutter_application_b1909960/components/custom_navbar_component.
 import 'package:flutter_application_b1909960/components/header_component.dart';
 import 'package:flutter_application_b1909960/models/movie.dart';
 import 'package:flutter_application_b1909960/provider/favorite_provider.dart';
+import 'package:flutter_application_b1909960/widget/arrow_back.dart';
 import 'package:provider/provider.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -157,19 +158,10 @@ class _FavoritePageState extends State<FavoritePage> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              // ignore: prefer_const_literals_to_create_immutables
               children: [
                 const HeaderComponent(),
-                InkWell(
-                  onTap: () {
-                    // Togo back to the page
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
+                const ArrowBack(),
                 const SizedBox(
                   height: 10,
                 ),
