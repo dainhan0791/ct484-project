@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_b1909960/components/custom_navbar_component.dart';
+import 'package:flutter_application_b1909960/components/header_component.dart';
+import 'package:flutter_application_b1909960/components/upcoming_component.dart';
 import 'package:flutter_application_b1909960/services/auth_service.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_application_b1909960/services/movie_service.dart';
+import 'package:flutter_application_b1909960/widget/sign_out_button.dart';
+import 'package:flutter_application_b1909960/widget/thank_you.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -18,27 +21,14 @@ class _UserPageState extends State<UserPage> {
   String? successMessage;
   String? errorMessage;
 
-  final TextEditingController _controllerId = TextEditingController();
-  final TextEditingController _controllerTitle = TextEditingController();
-  final TextEditingController _controllerDescription = TextEditingController();
-  final TextEditingController _controllerYear = TextEditingController();
-  final TextEditingController _controllerStar = TextEditingController();
-  final TextEditingController _controllerGenre = TextEditingController();
-  final TextEditingController _controllerImage = TextEditingController();
-  final TextEditingController _controllerVideo = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerProfilePicture =
+      TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+  get name => _controllerName.text;
+  get profiePicture => _controllerProfilePicture.text;
 
-  // get value
-  get title => _controllerTitle;
-  get id => _controllerId;
-  get description => _controllerDescription;
-  get year => _controllerYear;
-  get star => _controllerStar;
-  get genre => _controllerGenre;
-  get image => _controllerImage;
-  get video => _controllerVideo;
-
-  // Widgets
-
+  // ignore: unused_element
   Widget _sizedBox(double h) {
     return SizedBox(height: h);
   }
@@ -47,8 +37,8 @@ class _UserPageState extends State<UserPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Text(
-        'Movie ${title.toString()} :',
-        style: TextStyle(
+        'User ${title.toString()} :',
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
         ),
@@ -60,111 +50,82 @@ class _UserPageState extends State<UserPage> {
     String title,
     TextEditingController _controller,
   ) {
-    return Container(
+    return SizedBox(
       height: 48,
       child: TextField(
         controller: _controller,
         decoration: InputDecoration(
-          hintText: title,
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.black,
           ),
           filled: true,
-          fillColor: Colors.blue[50],
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
           ),
-          prefixIcon: title == 'id'
-              ? Icon(Icons.key, color: Colors.red.withOpacity(0.8))
-              : title == 'title'
-                  ? Icon(Icons.title, color: Colors.red.withOpacity(0.8))
-                  : title == 'description'
-                      ? Icon(Icons.description,
-                          color: Colors.red.withOpacity(0.8))
-                      : title == 'genre'
-                          ? Icon(Icons.catching_pokemon,
-                              color: Colors.red.withOpacity(0.8))
-                          : title == 'star'
-                              ? Icon(Icons.star,
-                                  color: Colors.red.withOpacity(0.8))
-                              : title == 'image'
-                                  ? Icon(Icons.image,
-                                      color: Colors.red.withOpacity(0.8))
-                                  : title == 'video'
-                                      ? Icon(Icons.movie_filter,
-                                          color: Colors.red.withOpacity(0.8))
-                                      : title == 'year'
-                                          ? Icon(Icons.timer,
-                                              color:
-                                                  Colors.red.withOpacity(0.8))
-                                          : Icon(Icons.replay_outlined,
-                                              color:
-                                                  Colors.red.withOpacity(0.8)),
+          prefixIcon: title == 'name'
+              ? Icon(Icons.title, color: Colors.red.withOpacity(0.8))
+              : title == 'password'
+                  ? Icon(Icons.key_off, color: Colors.red.withOpacity(0.8))
+                  : title == 'profilePicture'
+                      ? Icon(Icons.picture_as_pdf,
+                          color: Colors.red.withOpacity(0.8)) 
+                          : const Icon(Icons.no_luggage_outlined)
+                      
         ),
       ),
     );
   }
 
-  Widget _helloUser() {
-    return Text(
-      '${user?.email} ❤️',
-      // user?.email?.replaceAll('@gmail.com', '') ?? 'User does not exist',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
   // Function
-  Future<void> signOut() async {
-    await AuthService().signOut();
+
+  Future<void> updateDisplayname() async {
+    if (_controllerName.text == '') {
+      setState(() {
+        errorMessage = "User name is not empty";
+      });
+    } else {
+      setState(() {
+        successMessage =
+            'Update ${user?.email.toString()} With Username: ${name.toString()} ';
+      });
+      await AuthService().updateDisplayname(name: _controllerName.text);
+    }
   }
 
-  reloadInputValues() async {
-    _controllerId.clear();
-    _controllerTitle.clear();
-    _controllerDescription.clear();
-    _controllerYear.clear();
-    _controllerGenre.clear();
-    _controllerStar.clear();
-    _controllerImage.clear();
-    _controllerVideo.clear();
-
-    setState(() {
-      successMessage = 'Clear All Input Values Successfully';
-    });
+  Future<void> updateProfilePicture() async {
+    if (_controllerProfilePicture.text == '') {
+      setState(() {
+        errorMessage = "Profile Picture Url is not empty";
+      });
+    } else {
+      setState(() {
+        successMessage =
+            'Update ${user?.email.toString()} With ProfilePicture: ${profiePicture.toString()} ';
+      });
+      await AuthService()
+          .updatePhotoURL(profileUrl: _controllerProfilePicture.text);
+    }
   }
 
-  Future<void> addMovie() async {
+  Future<void> updatePassword() async {
+    if (_controllerPassword.text == '') {
+      setState(() {
+        errorMessage = 'Password Input is not empty';
+      });
+    } else {
+      setState(() {
+        successMessage =
+            'Update Password for ${user?.email.toString()} successfully ';
+      });
+      await AuthService().resetPassword(password: _controllerPassword.text);
+    }
+  }
+
+  Future<void> deleteUser() async {
     try {
-      if (_controllerId.text == '' ||
-          _controllerTitle.text == '' ||
-          _controllerDescription.text == '' ||
-          _controllerYear.text == '' ||
-          _controllerStar.text == '' ||
-          _controllerImage.text == '' ||
-          _controllerVideo.text == '') {
-        setState(() {
-          errorMessage = 'Movie Input is not empty';
-        });
-      } else {
-        setState(() {
-          successMessage = 'Add Movie Sucessfully with title: ${title.text}';
-        });
-        await MovieService().addMovie(
-          id: _controllerId.text,
-          title: _controllerTitle.text,
-          description: _controllerDescription.text,
-          year: _controllerYear.text,
-          star: _controllerStar.text,
-          genre: _controllerGenre.text,
-          image: _controllerImage.text,
-          video: _controllerVideo.text,
-        );
-      }
+      await AuthService().deleteUser();
     } catch (e) {
       setState(() {
         errorMessage = e.toString();
@@ -172,222 +133,66 @@ class _UserPageState extends State<UserPage> {
     }
   }
 
-  Future<void> updateMovie() async {
-    try {
-      if (_controllerId.text == '') {
-        errorMessage = 'Id Movie Input Is Not Empty';
-      } else {
-        setState(() {
-          successMessage =
-              'Update Movie Successfully with id: ${id.text} & title: ${title.text} & description: ${description.text} & year: ${year.text} & genre: ${genre.text} & star: ${star.text} & image: ${image.text}  & video: ${video.text}';
-        });
-
-        if (_controllerTitle.text != '') {
-          await MovieService().updateTitleMovie(
-            id: _controllerId.text,
-            title: _controllerTitle.text,
-          );
-        }
-
-        if (_controllerDescription.text != '') {
-          await MovieService().updateDescriptionMovie(
-            id: _controllerId.text,
-            description: _controllerDescription.text,
-          );
-        }
-        if (_controllerYear.text != '') {
-          await MovieService().updateYearMovie(
-            id: _controllerId.text,
-            year: _controllerYear.text,
-          );
-        }
-        if (_controllerGenre.text != '') {
-          await MovieService().updateGenreMovie(
-            id: _controllerId.text,
-            genre: _controllerGenre.text,
-          );
-        }
-        if (_controllerStar.text != '') {
-          await MovieService().updateStarMovie(
-            id: _controllerId.text,
-            star: _controllerStar.text,
-          );
-        }
-        if (_controllerImage.text != '') {
-          await MovieService().updateImageMovie(
-            id: _controllerId.text,
-            image: _controllerImage.text,
-          );
-        }
-        if (_controllerVideo.text != '') {
-          await MovieService().updateVideoMovie(
-            id: _controllerId.text,
-            video: _controllerVideo.text,
-          );
-        }
-        if (_controllerId.text != '' &&
-            _controllerTitle.text != '' &&
-            _controllerDescription.text != '' &&
-            _controllerYear.text != '' &&
-            _controllerStar.text != '' &&
-            _controllerImage.text != '' &&
-            _controllerVideo.text != '') {
-          await MovieService().updateMovie(
-            id: _controllerId.text,
-            title: _controllerTitle.text,
-            description: _controllerDescription.text,
-            year: _controllerYear.text,
-            star: _controllerStar.text,
-            genre: _controllerGenre.text,
-            image: _controllerImage.text,
-            video: _controllerVideo.text,
-          );
-        }
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = e.toString();
-      });
-    }
+  clearUsernameInput() {
+    _controllerName.clear();
   }
 
-  Future<void> deleteMovie() async {
-    try {
-      if (_controllerId.text == '') {
-        errorMessage = 'Movie Id is not empty';
-      } else {
-        setState(() {
-          successMessage = 'Delete Movie Sucessfully with id: ${id.text}';
-        });
-        await MovieService().deleteMovie(
-          id: _controllerId.text,
-        );
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = e.toString();
-      });
-    }
+  clearProfilePictureInput() {
+    _controllerProfilePicture.clear();
+  }
+
+  clearPasswordInput() {
+    _controllerPassword.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                child: Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 20,
+        ),
+        child: Column(
+          children: [
+            const HeaderComponent(),
+            _sizedBox(30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _helloUser(),
-                        SizedBox(height: 5),
-                        Text(
-                          '${user?.email?.replaceFirst('@gmail.com', '')} Aministrator',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        _movieTitleFiled('name'),
+                        SizedBox(
+                          width: 240,
+                          child: _movieField('name', _controllerName),
                         ),
                       ],
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.asset(
-                        "images/kenji.jpg",
-                        height: 50,
-                        width: 50,
-                      ),
-                    ),
-                    // Container(
-                    //   width: 50,
-                    //   height: 50,
-                    //   child: Avatar(
-                    //     name: '${user?.email?[0].toUpperCase()}',
-                    //     backgroundColor: Colors.brown.shade800,
-                    //     textStyle: TextStyle(
-                    //       fontSize: 25,
-                    //       color: Colors.white,
-                    //       fontWeight: FontWeight.w500,
-                    //     ),
-                    //     onTap: () {},
-                    //   ),
-                    // )
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _movieTitleFiled('id'),
-                    _movieField('id', _controllerId),
-                    _sizedBox(6),
-                    _movieTitleFiled('title'),
-                    _movieField('title', _controllerTitle),
-                    _sizedBox(6),
-                    _movieTitleFiled('desciption'),
-                    _movieField('desciption', _controllerDescription),
-                    _sizedBox(6),
-                    _movieTitleFiled('year'),
-                    _movieField('year', _controllerYear),
-                    _sizedBox(6),
-                    _movieTitleFiled('genre'),
-                    _movieField('genre', _controllerGenre),
-                    _sizedBox(6),
-                    _movieTitleFiled('star'),
-                    _movieField('star', _controllerStar),
-                    _sizedBox(6),
-                    _movieTitleFiled('image'),
-                    _movieField('image', _controllerImage),
-                    _sizedBox(6),
-                    _movieTitleFiled('video'),
-                    _movieField('video', _controllerVideo),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Color(0xFF292B37),
+                        color: const Color(0xFF292B37),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: InkWell(
                         onTap: () {
-                          addMovie();
+                          updateDisplayname();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.lightBlue,
                               content: Text(
                                 errorMessage != null
                                     ? errorMessage.toString()
                                     : successMessage.toString(),
                                 style: TextStyle(
                                   color: errorMessage != null
-                                      ? Colors.red
+                                      ? Colors.white
                                       : Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
@@ -404,155 +209,197 @@ class _UserPageState extends State<UserPage> {
                             }
                           });
                         },
-                        child: Icon(
-                          Icons.add,
-                          size: 26,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF292B37),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          updateMovie();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.blue,
-                              content: Text(
-                                errorMessage != null
-                                    ? errorMessage.toString()
-                                    : successMessage.toString(),
-                                style: TextStyle(
-                                  color: successMessage != null
-                                      ? Colors.white
-                                      : Colors.red,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          );
-                          setState(() {
-                            if (errorMessage != null) {
-                              errorMessage = null;
-                            }
-                            if (successMessage != null) {
-                              successMessage = null;
-                            }
-                          });
-                        },
-                        child: Icon(
-                          Icons.edit,
-                          size: 26,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF292B37),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          deleteMovie();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.yellow.withOpacity(0.8),
-                              content: Text(
-                                errorMessage != null
-                                    ? errorMessage.toString()
-                                    : successMessage.toString(),
-                                style: TextStyle(
-                                  color: successMessage != null
-                                      ? Colors.white
-                                      : Colors.red,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          );
-                          setState(() {
-                            if (errorMessage != null) {
-                              errorMessage = null;
-                            }
-                            if (successMessage != null) {
-                              successMessage = null;
-                            }
-                          });
-                        },
-                        child: Icon(
-                          Icons.delete,
-                          size: 26,
-                          color: Colors.yellow,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF292B37),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          reloadInputValues();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.white.withOpacity(0.8),
-                              content: Text(
-                                successMessage.toString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          );
-                          setState(() {
-                            successMessage = null;
-                          });
-                        },
-                        child: Icon(
-                          Icons.clear_all,
+                        child: const Icon(
+                          Icons.check,
                           size: 26,
                           color: Colors.white,
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Color(0xFF292B37),
+                        color: const Color(0xFF292B37),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: InkWell(
                         onTap: () {
-                          signOut();
+                          clearUsernameInput();
                         },
-                        child: Icon(
-                          Icons.logout,
+                        child: const Icon(
+                          Icons.clear,
                           size: 26,
-                          color: Colors.red,
+                          color: Colors.pink,
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+                _sizedBox(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _movieTitleFiled('profilePicture'),
+                        SizedBox(
+                          width: 240,
+                          child: _movieField(
+                              'profilePicture', _controllerProfilePicture),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF292B37),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          updateProfilePicture();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.lightBlue,
+                              content: Text(
+                                errorMessage != null
+                                    ? errorMessage.toString()
+                                    : successMessage.toString(),
+                                style: TextStyle(
+                                  color: errorMessage != null
+                                      ? Colors.white
+                                      : Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          );
+                          setState(() {
+                            if (errorMessage != null) {
+                              errorMessage = null;
+                            }
+                            if (successMessage != null) {
+                              successMessage = null;
+                            }
+                          });
+                        },
+                        child: const Icon(
+                          Icons.check,
+                          size: 26,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF292B37),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          clearProfilePictureInput();
+                        },
+                        child: const Icon(
+                          Icons.clear,
+                          size: 26,
+                          color: Colors.pink,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                _sizedBox(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _movieTitleFiled('password'),
+                        SizedBox(
+                          width: 240,
+                          child: _movieField('password', _controllerPassword),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF292B37),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          updatePassword();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.lightBlue,
+                              content: Text(
+                                errorMessage != null
+                                    ? errorMessage.toString()
+                                    : successMessage.toString(),
+                                style: TextStyle(
+                                  color: errorMessage != null
+                                      ? Colors.white
+                                      : Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          );
+                          setState(() {
+                            if (errorMessage != null) {
+                              errorMessage = null;
+                            }
+                            if (successMessage != null) {
+                              successMessage = null;
+                            }
+                          });
+                        },
+                        child: const Icon(
+                          Icons.check,
+                          size: 26,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF292B37),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          clearPasswordInput();
+                        },
+                        child: const Icon(
+                          Icons.clear,
+                          size: 26,
+                          color: Colors.pink,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                _sizedBox(20),
+                const SignOutButton(),
+              ],
+            ),
+            _sizedBox(20),
+            const UpcomingComponent(),
+            _sizedBox(10),
+            ThankYou(),
+          ],
         ),
       ),
-      bottomNavigationBar: CustomNavbarComponent(),
+      bottomNavigationBar: const CustomNavbarComponent(),
     );
   }
 }

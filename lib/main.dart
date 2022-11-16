@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_b1909960/services/auth_service.dart';
 import 'package:flutter_application_b1909960/widget_tree.dart';
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFF0F111F),
+        scaffoldBackgroundColor: const Color(0xFF0F111F),
       ),
       home: const WidgetTree(),
     );

@@ -7,10 +7,10 @@ class CustomNavbarComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 46,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFF292B37),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
@@ -25,7 +25,7 @@ class CustomNavbarComponent extends StatelessWidget {
               // Navigate Home Page
               Navigator.pushNamed(context, "/");
             },
-            child: Icon(
+            child: const Icon(
               Icons.home,
               size: 26,
               color: Colors.white,
@@ -36,15 +36,18 @@ class CustomNavbarComponent extends StatelessWidget {
               // Navigate Category Page
               Navigator.pushNamed(context, "categoryPage");
             },
-            child: Icon(
+            child: const Icon(
               Icons.storage,
               size: 26,
               color: Colors.white,
             ),
           ),
           InkWell(
-            onTap: () {},
-            child: Icon(
+            onTap: () {
+              // Navigate User Page
+              Navigator.pushNamed(context, "favoritePage");
+            },
+            child: const Icon(
               Icons.favorite,
               size: 26,
               color: Colors.white,
@@ -55,7 +58,7 @@ class CustomNavbarComponent extends StatelessWidget {
               // Navigate User Page
               Navigator.pushNamed(context, "userPage");
             },
-            child: Icon(
+            child: const Icon(
               Icons.person,
               size: 26,
               color: Colors.white,

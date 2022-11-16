@@ -56,7 +56,8 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
         ),
-        prefixIcon: title == 'email' ? Icon(Icons.email) : Icon(Icons.key),
+        prefixIcon:
+            title == 'email' ? const Icon(Icons.email) : const Icon(Icons.key),
       ),
     );
   }
@@ -64,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _errorMessage() {
     return Text(
       errorMessage == '' ? '' : 'Humm ? $errorMessage',
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.red,
         fontWeight: FontWeight.w500,
       ),
@@ -75,9 +76,12 @@ class _LoginPageState extends State<LoginPage> {
     return ElevatedButton(
       onPressed:
           isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
-      child: Text(
-        isLogin ? 'Login' : 'Register',
-      ),
+      child: isLogin
+          ? const Text('Login', style: TextStyle(color: Colors.white))
+          : const Text('Register', style: TextStyle(color: Colors.yellow)),
+      // child: Text(
+      //   isLogin ? 'Login' : 'Register',
+      // ),
     );
   }
 

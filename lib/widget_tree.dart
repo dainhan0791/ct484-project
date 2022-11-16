@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_b1909960/pages/admin_page.dart';
 import 'package:flutter_application_b1909960/pages/home_page.dart';
 import 'package:flutter_application_b1909960/pages/auth_page.dart';
-import 'package:flutter_application_b1909960/pages/video_app.dart';
 import 'package:flutter_application_b1909960/services/auth_service.dart';
 
 class WidgetTree extends StatefulWidget {
@@ -18,8 +18,11 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: AuthService().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomePage();
-          // return const VideoApp();
+          if (snapshot.data?.email == 'admin@gmail.com') {
+            return const AdminPage();
+          } else {
+            return const HomePage();
+          }
         } else {
           return const LoginPage();
         }
