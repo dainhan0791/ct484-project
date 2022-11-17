@@ -9,14 +9,14 @@ import 'package:flutter_application_b1909960/provider/favorite_provider.dart';
 import 'package:flutter_application_b1909960/widget/arrow_back.dart';
 import 'package:provider/provider.dart';
 
-class MoviePage extends StatefulWidget {
-  const MoviePage({super.key});
+class DetailPage extends StatefulWidget {
+  const DetailPage({super.key});
 
   @override
-  State<MoviePage> createState() => _MoviePageState();
+  State<DetailPage> createState() => _DetailPageState();
 }
 
-class _MoviePageState extends State<MoviePage> {
+class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     final argsNewMovie =

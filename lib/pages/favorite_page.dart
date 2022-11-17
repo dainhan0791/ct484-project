@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_b1909960/components/custom_navbar_component.dart';
 import 'package:flutter_application_b1909960/components/header_component.dart';
+import 'package:flutter_application_b1909960/models/current_movie.dart';
 import 'package:flutter_application_b1909960/models/movie.dart';
 import 'package:flutter_application_b1909960/provider/favorite_provider.dart';
 import 'package:flutter_application_b1909960/widget/arrow_back.dart';
@@ -187,72 +188,83 @@ class _FavoritePageState extends State<FavoritePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        movie['image'],
-                                        height: 120,
-                                        width: 90,
-                                        fit: BoxFit.cover,
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              'moviePage',
+                              arguments: CurrentMovie(
+                                movie['id'].toString(),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          movie['image'],
+                                          height: 120,
+                                          width: 90,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 220,
-                                          child: Text(
-                                            movie['title'],
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white,
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 220,
+                                            child: Text(
+                                              movie['title'],
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        SizedBox(
-                                          width: 220,
-                                          child: Text(
-                                            movie['genre'],
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.amber,
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 220,
+                                            child: Text(
+                                              movie['genre'],
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.amber,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    InkWell(
-                                      onTap: () {
-                                        provider.removeFavorite(index);
-                                      },
-                                      child: const Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                        size: 36,
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                                      const Spacer(),
+                                      InkWell(
+                                        onTap: () {
+                                          provider.removeFavorite(index);
+                                        },
+                                        child: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 36,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_b1909960/components/custom_navbar_component.dart';
@@ -71,6 +73,10 @@ class _VideoPageState extends State<VideoPage> {
                         // ignore: prefer_const_literals_to_create_immutables
                         bottomActions: [
                           const ArrowBack(),
+                          ProgressBar(isExpanded: true),
+                          const PlaybackSpeedButton(),
+                          RemainingDuration(),
+                          FullScreenButton(),
                         ],
                       ),
                     ),

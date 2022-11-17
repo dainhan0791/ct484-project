@@ -6,7 +6,7 @@ import 'package:flutter_application_b1909960/components/new_movies_component.dar
 import 'package:flutter_application_b1909960/components/upcoming_component.dart';
 import 'package:flutter_application_b1909960/pages/category_page.dart';
 import 'package:flutter_application_b1909960/pages/favorite_page.dart';
-import 'package:flutter_application_b1909960/pages/movie_page.dart';
+import 'package:flutter_application_b1909960/pages/detail_page.dart';
 import 'package:flutter_application_b1909960/pages/user_page.dart';
 import 'package:flutter_application_b1909960/pages/video_page.dart';
 import 'package:flutter_application_b1909960/provider/favorite_provider.dart';
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
         ),
         routes: {
           "categoryPage": (context) => const CategoryPage(),
-          "moviePage": (context) => const MoviePage(),
+          "moviePage": (context) => const DetailPage(),
           "userPage": (context) => const UserPage(),
           "favoritePage": (context) => const FavoritePage(),
           "videoPage": (context) => const VideoPage(),
